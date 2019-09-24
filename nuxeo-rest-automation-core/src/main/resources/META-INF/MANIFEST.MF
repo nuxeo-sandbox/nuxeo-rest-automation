@@ -1,0 +1,10 @@
+Bundle-ActivationPolicy: lazy
+Bundle-ClassPath: .
+Manifest-Version: 1.0
+Bundle-Vendor: org.nuxeo.ecm.automation.http
+Bundle-Version: 1.0.0
+Bundle-Name: nuxeo-rest-automation-core
+Bundle-ManifestVersion: 2
+Bundle-SymbolicName: org.nuxeo.ecm.automation.http;singleton=true
+Nuxeo-Component: OSGI-INF/http-client-framework.xml,
+  OSGI-INF/http-client-operation-contrib.xml

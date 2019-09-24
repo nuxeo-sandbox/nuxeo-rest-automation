@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<component name="org.nuxeo.ecm.automation.http.HTTPClientService">
+  <implementation class="org.nuxeo.ecm.automation.http.HTTPClientComponent" />
+
+  <documentation>
+    @author Damon Brown (dbrown@nuxeo.com)
+  </documentation>
+
+  <service>
+    <provide interface="org.nuxeo.ecm.automation.http.HTTPClientService" />
+  </service>
+
+  <extension-point name="client">
+    <documentation>
+      example:
+      <code>
+        <client>
+          <property key="com.sun.jersey.client.property.followRedirects">true</property>
+          <property key="com.sun.jersey.client.property.bufferResponseEntityOnException">false</property>
+          
+          <feature key="com.sun.jersey.config.feature.Formatted">false</feature>
+          <feature key="com.sun.jersey.config.feature.DisableXmlSecurity">false</feature>
+        </client>
+      </code>
+    </documentation>
+    <object class="org.nuxeo.ecm.automation.http.HTTPClientDescriptor" />
+  </extension-point>
+
+</component>
