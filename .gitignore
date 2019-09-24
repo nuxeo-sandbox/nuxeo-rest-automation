@@ -5,6 +5,8 @@ bower_components
 .publish/
 target
 .classpath
+.factorypath
+.vscode
 .project
 npm-debug.log
 .settings/
