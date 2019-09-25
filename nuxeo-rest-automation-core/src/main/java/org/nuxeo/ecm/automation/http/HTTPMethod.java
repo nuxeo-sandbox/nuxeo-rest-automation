@@ -43,6 +43,7 @@ import org.nuxeo.ecm.core.api.Blobs;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.NuxeoException;
 import org.nuxeo.ecm.core.api.blobholder.BlobHolder;
+import org.nuxeo.runtime.api.Framework;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -51,8 +52,6 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.UniformInterfaceException;
 import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.config.ClientConfig;
-import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.core.header.ContentDisposition;
 
 /**
@@ -101,10 +100,8 @@ public class HTTPMethod {
     protected boolean download = false;
 
     protected Client getClient() {
-        ClientConfig cc = new DefaultClientConfig();
-        cc.getProperties().put(ClientConfig.PROPERTY_FOLLOW_REDIRECTS, true);
-        Client client = Client.create(cc);
-        return client;
+        HTTPClientService service = Framework.getService(HTTPClientService.class);
+        return service.getClient();
     }
 
     @OperationMethod(collector = BlobCollector.class)
