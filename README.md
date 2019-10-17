@@ -15,6 +15,24 @@ mvn clean install
 
 > Install with `nuxeoctl mp-install <package>`
 
+## Use
+
+## Blob.HTTPMethod
+
+The method takes a document, blob, or no input.  The input blob is used as the body of the request.  The content type will be automatically set from the blob, if available.
+
+* `method` - The HTTP Method to use
+* `url` - The URL to invoke
+* `headerMap` - The headers as a property map
+* `headers` - The headers as a JSON string
+* `paramMap` - The parameters as a property map
+* `params` - The parameters as a JSON string
+* `body` - The body as a string
+* `contentType` - the content MIME type
+* `accept` - the accept MIME type
+* `download` - true or false, create a blob from the response
+
+
 ## Configure (nuxeo.conf)
 
 Optionally set system-wide properties for the Jersey REST client.
