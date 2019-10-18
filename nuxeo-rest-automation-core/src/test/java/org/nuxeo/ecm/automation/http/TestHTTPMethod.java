@@ -1,6 +1,7 @@
 package org.nuxeo.ecm.automation.http;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,14 +37,14 @@ public class TestHTTPMethod {
 
     @Test
     public void shouldCallWithParameters() throws OperationException {
-        final String url = "https://www.google.com/index.html";
+        final String url = "https://www.google.com/";
         OperationContext ctx = new OperationContext(session);
         Map<String, Object> params = new HashMap<>();
         params.put("url", url);
         params.put("download", "true");
         params.put("accept", "text/html");
         Blob blob = (Blob) automationService.run(ctx, HTTPMethod.ID, params);
-        assertEquals("index.html", blob.getFilename());
-        assertEquals("text/html; charset=UTF-8", blob.getMimeType());
+        assertTrue(blob instanceof HTTPBlobWrapper);
+        assertEquals(200, ((HTTPBlobWrapper) blob).getStatus());
     }
 }

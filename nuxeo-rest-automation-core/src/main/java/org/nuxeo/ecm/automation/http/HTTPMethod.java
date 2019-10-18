@@ -148,6 +148,9 @@ public class HTTPMethod {
 
         ClientResponse response = null;
         Blob result = null;
+        boolean err = false;
+        String msg = null;
+        int statusCode = 0;
         try {
             response = builder.method(method, ClientResponse.class);
 
@@ -184,17 +187,14 @@ public class HTTPMethod {
                 result = Blobs.createBlob(response.getEntity(String.class), "text/plain", "UTF-8");
             }
 
-            ctx.put("http_error", false);
         } catch (UniformInterfaceException ufe) {
-            ctx.put("http_error", true);
-            ctx.put("http_errorMessage", ufe.getMessage());
-
+            err = true;
+            msg = ufe.getMessage();
             throw new NuxeoException(ufe.getMessage(), ufe, ufe.getResponse().getStatus());
 
         } catch (Exception e) {
-            ctx.put("http_error", true);
-            ctx.put("http_errorMessage", e.getMessage());
-
+            err = true;
+            msg = e.getMessage();
             throw new NuxeoException(e.getMessage(), e);
 
         } finally {
@@ -202,15 +202,17 @@ public class HTTPMethod {
             if (response != null) {
                 // Set context environment
                 StatusType status = response.getStatusInfo();
-                ctx.put("http_status", status.getStatusCode());
-                ctx.put("http_statusMessage", status.getReasonPhrase());
-                ctx.put("http_lastModified", response.getLastModified());
+                statusCode = status.getStatusCode();
 
                 response.close();
             }
         }
 
-        return result;
+        HTTPBlobWrapper wrap = new HTTPBlobWrapper(response, result);
+        wrap.setError(err);
+        wrap.setMessage(msg);
+        wrap.setStatus(statusCode);
+        return wrap;
     }
 
     protected void addHeaders(WebResource.Builder inHttp, Properties inProps, String inJsonStr) throws IOException {
